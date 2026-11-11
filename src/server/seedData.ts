@@ -1,0 +1,605 @@
+import type {
+  CertificateRecord,
+  Course,
+  CourseMaterial,
+  SiteSettings,
+  WebsiteContent,
+} from '../types.ts';
+
+const NOW = '2026-11-01T09:00:00.000Z';
+
+export const SEED_CONTENT: WebsiteContent = {
+  companyName: 'APJ Tech',
+  tagline: 'Build & Inspire.',
+  slogan: 'Turning Ideas into Technology.',
+  onlineBanner: '100% ONLINE SERVICES – Learn, Build and Grow from Anywhere.',
+  heroHeading: 'Build Your Future with Technology',
+  heroDescription:
+    'APJ Tech provides online IT training, student project guidance and digital technology solutions. Learn new skills, develop practical knowledge and achieve your goals from anywhere.',
+  companyIntro:
+    'APJ Tech is an online technology education and digital engineering studio dedicated to helping students, graduates, and growing teams turn ideas into working software.',
+  aboutIntro:
+    'Founded with the spirit of Build & Inspire, APJ Tech delivers live online IT training, structured student project mentorship, and custom digital services without geographic barriers.',
+  mission:
+    'To provide accessible, hands-on online IT education and reliable student project guidance that bridges academic theory and real-world software engineering.',
+  vision:
+    'To become a trusted online learning and digital engineering partner where aspiring developers build practical capabilities and organizations deploy dependable technology.',
+  coreValues: [
+    {
+      title: 'Practical Mastery',
+      description:
+        'Every concept is reinforced through live coding, real datasets, structured exercises, and working project builds.',
+    },
+    {
+      title: '100% Online Accessibility',
+      description:
+        'Students and clients connect seamlessly from any location with structured remote mentoring and cloud-ready workflows.',
+    },
+    {
+      title: 'Engineering Integrity',
+      description:
+        'We emphasize clean architecture, authentic understanding, and honest documentation across every course and project.',
+    },
+    {
+      title: 'Continuous Innovation',
+      description:
+        'From foundational programming and SQL to applied AI and modern web frameworks, our curriculum evolves with industry practice.',
+    },
+  ],
+  whyChooseItems: [
+    {
+      title: '100% Online Interactive Format',
+      description:
+        'Attend guided sessions, access structured digital notes, and collaborate remotely from anywhere.',
+    },
+    {
+      title: 'Hands-On Project Mentorship',
+      description:
+        'Dedicated support for mini projects, final-year engineering builds, code walkthroughs, and viva preparation.',
+    },
+    {
+      title: 'Structured Study Materials',
+      description:
+        'Download curated PDF notes, spreadsheet exercises, JavaScript code snippets, and SQL practice sets.',
+    },
+    {
+      title: 'Verified Completion Records',
+      description:
+        'Graduates earn an APJ Tech Course Completion Certificate backed by unique online ID verification.',
+    },
+  ],
+};
+
+export const SEED_SETTINGS: SiteSettings = {
+  whatsappNumber: '+91 8668130425',
+  whatsappUrl: 'https://wa.me/918668130425',
+  email: 'bharathan45k@gmail.com',
+  websiteDomain: 'www.apjtech.in',
+  authorizedSignatory: 'Authorized Signature',
+  teamMembers: ['Bharathan K (Lead Mentor)', 'Arjun S (Full-Stack)', 'Priya R (Python & AI)', 'Karthik M (Database)'],
+};
+
+export const SEED_COURSES: Course[] = [
+  {
+    id: 'course-python-ai',
+    slug: 'python-ai',
+    title: 'Python + AI',
+    category: 'Programming & Artificial Intelligence',
+    shortDescription:
+      'Master Python programming from fundamentals to libraries, AI principles, machine learning concepts, and applied intelligent systems.',
+    description:
+      'An online, hands-on track taking learners from core Python syntax, control flow, and modular functions to scientific libraries, Artificial Intelligence fundamentals, and introductory Machine Learning workflows.',
+    imageUrl: '',
+    published: true,
+    syllabusOverview:
+      'Covers Python Fundamentals, Variables and Data Types, Operators, Conditions and Loops, Functions, Python Libraries, AI Fundamentals, Machine Learning Introduction, and Practical Projects.',
+    modules: [
+      {
+        id: 'm1',
+        title: 'Module 1: Python Fundamentals & Data Types',
+        topics: ['Python Fundamentals', 'Variables and Data Types', 'Input/Output & Type Casting', 'Operators'],
+      },
+      {
+        id: 'm2',
+        title: 'Module 2: Control Flow & Modular Functions',
+        topics: ['Conditions and Loops', 'List & Dictionary Comprehensions', 'Functions & Scope', 'Error Handling'],
+      },
+      {
+        id: 'm3',
+        title: 'Module 3: Python Libraries for Data & Computing',
+        topics: ['Python Libraries Overview', 'NumPy Arrays & Vector Operations', 'Pandas Data Manipulation', 'File & JSON Processing'],
+      },
+      {
+        id: 'm4',
+        title: 'Module 4: AI Fundamentals & Machine Learning',
+        topics: ['AI Fundamentals', 'Machine Learning Introduction', 'Supervised vs Unsupervised Learning', 'Practical Projects'],
+      },
+    ],
+    learningOutcomes: [
+      'Write clean, modular Python programs using conditions, loops, and reusable functions.',
+      'Manipulate structured datasets with core Python libraries such as NumPy and Pandas.',
+      'Explain core AI concepts, feature preparation, and introductory Machine Learning pipelines.',
+      'Build and evaluate a complete Python + AI mini project from scratch.',
+    ],
+    sampleLessonTitle: 'Sample Lesson: Functions, Filtering & Basic Prediction Logic',
+    sampleLessonContent:
+      'In Python, writing small pure functions keeps both application code and AI preprocessing steps testable. Below is an example scoring function that evaluates student attendance and assessment averages before feeding structured features into a classifier.',
+    sampleLessonCode: `def classify_readiness(attendance_pct: float, quiz_avg: float) -> str:
+    """Evaluate readiness score using weighted criteria."""
+    weighted_score = (attendance_pct * 0.35) + (quiz_avg * 0.65)
+    if weighted_score >= 75:
+        return "Project Ready"
+    elif weighted_score >= 55:
+        return "Needs Guided Practice"
+    return "Foundation Review"
+
+students = [
+    {"name": "Ananya", "attendance": 92, "quiz": 84},
+    {"name": "Rahul", "attendance": 68, "quiz": 61},
+]
+
+for student in students:
+    status = classify_readiness(student["attendance"], student["quiz"])
+    print(f"{student['name']}: {status}")`,
+    practiceExercises: [
+      'Build a grade calculator function using conditional statements and dictionary lookups.',
+      'Write a loop-based frequency counter that summarizes word counts from a text paragraph.',
+      'Clean a sample CSV dataset using Python and compute column-wise mean and median.',
+    ],
+    sampleProjectTitle: 'Student Academic Risk & Study Recommender',
+    sampleProjectDescription:
+      'A practical Python + Machine Learning introduction project that preprocesses study metrics, trains a classification baseline, and generates actionable study recommendations.',
+    createdAt: NOW,
+    updatedAt: NOW,
+  },
+  {
+    id: 'course-ms-office',
+    slug: 'ms-office',
+    title: 'MS Office',
+    category: 'Productivity & Office Automation',
+    shortDescription:
+      'Build workplace fluency in Microsoft Word, Excel spreadsheets, dynamic formulas, data charts, and executive PowerPoint presentations.',
+    description:
+      'A structured online training track focused on real-world documentation, spreadsheet automation, formula logic, analytical charting, and persuasive presentation design across Microsoft Word, Excel, and PowerPoint.',
+    imageUrl: '',
+    published: true,
+    syllabusOverview:
+      'Covers Microsoft Word, Microsoft Excel, Excel Formulas, Charts, Microsoft PowerPoint, and Professional Presentations.',
+    modules: [
+      {
+        id: 'm1',
+        title: 'Module 1: Microsoft Word & Structured Documents',
+        topics: ['Microsoft Word Workspace', 'Styles, Headers & Table of Contents', 'Tables, SmartArt & Page Layout', 'Mail Merge & Report Formatting'],
+      },
+      {
+        id: 'm2',
+        title: 'Module 2: Microsoft Excel & Core Formulas',
+        topics: ['Microsoft Excel Basics', 'Cell Referencing ($ Absolute vs Relative)', 'Excel Formulas (SUMIFS, COUNTIFS, IF)', 'Lookup Functions (VLOOKUP / XLOOKUP)'],
+      },
+      {
+        id: 'm3',
+        title: 'Module 3: Excel Charts & Visual Reporting',
+        topics: ['Charts Selection Guide', 'Column, Line, Pie & Combo Charts', 'Conditional Formatting', 'Data Sorting, Filtering & Pivot Summaries'],
+      },
+      {
+        id: 'm4',
+        title: 'Module 4: Microsoft PowerPoint & Presentations',
+        topics: ['Microsoft PowerPoint Master Slides', 'Visual Hierarchy & Typography', 'Embedding Live Excel Charts', 'Professional Presentations Delivery'],
+      },
+    ],
+    learningOutcomes: [
+      'Format academic reports, resumes, and business proposals cleanly in Microsoft Word.',
+      'Automate calculations and conditional summaries using essential Excel Formulas.',
+      'Transform raw tabular figures into clear Excel Charts for decision makers.',
+      'Design structured, crisp executive slide decks in Microsoft PowerPoint.',
+    ],
+    sampleLessonTitle: 'Sample Lesson: Conditional Summary & Lookup Formulas in Excel',
+    sampleLessonContent:
+      'Combine IF, SUMIFS, and VLOOKUP to turn raw operational spreadsheets into automated summary dashboards without manual recalculation.',
+    sampleLessonCode: `// Evaluate monthly target achievement
+=IF(D2>=E2, "Target Met", "Below Target")
+
+// Sum revenue for a specific department and status
+=SUMIFS(Sales!D2:D200, Sales!B2:B200, "Training", Sales!F2:F200, "Confirmed")
+
+// Retrieve course category from reference sheet
+=VLOOKUP(A2, Catalog!$A$2:$C$50, 2, FALSE)`,
+    practiceExercises: [
+      'Create a formatted multi-section project report in Microsoft Word with automated Table of Contents.',
+      'Build an attendance & expense tracker in Excel using SUMIFS, AVERAGEIF, and conditional formatting.',
+      'Design a 6-slide executive summary presentation embedding two dynamic charts.',
+    ],
+    sampleProjectTitle: 'Quarterly Operations Workbook & Executive Slide Deck',
+    sampleProjectDescription:
+      'Create a multi-sheet Excel performance workbook with lookup formulas and charts, paired with a matching Word executive memo and PowerPoint briefing deck.',
+    createdAt: NOW,
+    updatedAt: NOW,
+  },
+  {
+    id: 'course-data-analytics',
+    slug: 'data-analytics',
+    title: 'Data Analytics',
+    category: 'Data Science & Business Intelligence',
+    shortDescription:
+      'Turn raw datasets into actionable decisions using Excel, Python, Pandas, systematic data cleaning, and clear visual storytelling.',
+    description:
+      'Learn the end-to-end online Data Analytics workflow: structuring spreadsheet records, scripting transformations with Python and Pandas, cleaning messy real-world records, and building compelling visualizations.',
+    imageUrl: '',
+    published: true,
+    syllabusOverview:
+      'Covers Excel, Python, Pandas, Data Cleaning, Data Visualization, and Practical Analytics Projects.',
+    modules: [
+      {
+        id: 'm1',
+        title: 'Module 1: Analytical Foundations with Excel',
+        topics: ['Excel for Analysts', 'PivotTables & Slicers', 'Descriptive Statistics', 'KPI Summary Design'],
+      },
+      {
+        id: 'm2',
+        title: 'Module 2: Python & Pandas DataFrames',
+        topics: ['Python Analytics Environment', 'Pandas Series & DataFrames', 'Filtering, Grouping & Merging', 'Aggregations & Pivot Logic'],
+      },
+      {
+        id: 'm3',
+        title: 'Module 3: Systematic Data Cleaning',
+        topics: ['Data Cleaning Workflows', 'Handling Missing & Duplicate Records', 'Standardizing Dates & Strings', 'Outlier Detection'],
+      },
+      {
+        id: 'm4',
+        title: 'Module 4: Data Visualization & Practical Projects',
+        topics: ['Data Visualization Principles', 'Matplotlib & Seaborn Charts', 'Correlation & Trend Exploration', 'Practical Analytics Projects'],
+      },
+    ],
+    learningOutcomes: [
+      'Clean and validate messy CSV and spreadsheet datasets reproducibly.',
+      'Perform grouped aggregations, joins, and time-series summaries using Python and Pandas.',
+      'Select and style accurate charts that highlight trends without visual clutter.',
+      'Deliver end-to-end exploratory data analysis reports for real business scenarios.',
+    ],
+    sampleLessonTitle: 'Sample Lesson: Data Cleaning & Revenue Aggregation in Pandas',
+    sampleLessonContent:
+      'Before plotting any chart, analysts remove duplicates, standardize string casing, coerce numeric columns, and aggregate cleanly by category.',
+    sampleLessonCode: `import pandas as pd
+
+df = pd.read_csv("enrollments.csv")
+df = df.drop_duplicates(subset=["record_id"])
+df["course"] = df["course"].str.strip().str.title()
+df["completion_rate"] = pd.to_numeric(df["completion_rate"], errors="coerce")
+df["completion_rate"] = df["completion_rate"].fillna(df["completion_rate"].median())
+
+summary = (
+    df.groupby("course", as_index=False)
+      .agg(students=("record_id", "count"), avg_completion=("completion_rate", "mean"))
+      .sort_values(by="students", ascending=False)
+)
+print(summary)`,
+    practiceExercises: [
+      'Clean a sample sales table containing null values, inconsistent date formats, and extra whitespace.',
+      'Build a Pandas GroupBy summary calculating monthly totals and top-performing categories.',
+      'Generate comparative bar and trend line plots highlighting seasonal changes.',
+    ],
+    sampleProjectTitle: 'Retail Sales & Customer Cohort Analytics Case Study',
+    sampleProjectDescription:
+      'Clean raw multi-month transaction logs using Python and Pandas, derive cohort retention metrics, and build a visual insight report.',
+    createdAt: NOW,
+    updatedAt: NOW,
+  },
+  {
+    id: 'course-frontend-development',
+    slug: 'frontend-development',
+    title: 'Frontend Development',
+    category: 'Web & UI Engineering',
+    shortDescription:
+      'Craft responsive, accessible websites and interactive interfaces with HTML, CSS, JavaScript, Responsive Web Design, and React.',
+    description:
+      'A practical online web engineering course covering semantic HTML5, modern CSS layout systems, core JavaScript DOM & API integration, Responsive Web Design principles, and component-driven React applications.',
+    imageUrl: '',
+    published: true,
+    syllabusOverview:
+      'Covers HTML, CSS, JavaScript, Responsive Web Design, React Fundamentals, and Website Projects.',
+    modules: [
+      {
+        id: 'm1',
+        title: 'Module 1: Semantic HTML & Modern CSS',
+        topics: ['HTML Document Structure & Accessibility', 'CSS Box Model & Selectors', 'Flexbox & CSS Grid Layouts', 'Typography & Color Systems'],
+      },
+      {
+        id: 'm2',
+        title: 'Module 2: Responsive Web Design & JavaScript',
+        topics: ['Responsive Web Design & Media Queries', 'JavaScript Fundamentals (ES6+)', 'DOM Manipulation & Events', 'Fetch API & Asynchronous JS'],
+      },
+      {
+        id: 'm3',
+        title: 'Module 3: React Fundamentals',
+        topics: ['React Components & JSX', 'Props & Unidirectional Data Flow', 'State Management with useState & useEffect', 'Forms & Client Routing'],
+      },
+      {
+        id: 'm4',
+        title: 'Module 4: Production Website Projects',
+        topics: ['Reusable UI Architecture', 'Performance & Responsive Testing', 'Website Projects Build', 'Deployment Basics'],
+      },
+    ],
+    learningOutcomes: [
+      'Author clean, accessible HTML and responsive CSS Grid / Flexbox layouts across mobile and desktop.',
+      'Write interactive JavaScript logic handling user input, validation, and REST API responses.',
+      'Build modular React components using Hooks, controlled forms, and dynamic state.',
+      'Ship complete multi-page responsive website projects.',
+    ],
+    sampleLessonTitle: 'Sample Lesson: Interactive Course Filter Component in React',
+    sampleLessonContent:
+      'React lets you drive UI state declaratively from clean JavaScript arrays. Here is a responsive search and category filter pattern used in modern web applications.',
+    sampleLessonCode: `import { useState } from 'react';
+
+const TOPICS = [
+  { id: 1, name: 'Semantic HTML', track: 'Core' },
+  { id: 2, name: 'CSS Grid Layouts', track: 'Core' },
+  { id: 3, name: 'React Hooks', track: 'Framework' },
+];
+
+export function TopicExplorer() {
+  const [query, setQuery] = useState('');
+  const filtered = TOPICS.filter((item) =>
+    item.name.toLowerCase().includes(query.toLowerCase())
+  );
+
+  return (
+    <div>
+      <input
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        placeholder="Filter syllabus topics..."
+      />
+      <ul>
+        {filtered.map((item) => <li key={item.id}>{item.name}</li>)}
+      </ul>
+    </div>
+  );
+}`,
+    practiceExercises: [
+      'Build a responsive 3-section landing page using CSS Grid and Flexbox without horizontal overflow.',
+      'Create an interactive form validator in vanilla JavaScript displaying inline field errors.',
+      'Build a filterable React catalog component with live search and active state toggles.',
+    ],
+    sampleProjectTitle: 'Responsive Service Portal & Interactive Catalog App',
+    sampleProjectDescription:
+      'Design and build a responsive multi-section web application featuring mobile navigation, live search filters, and validated enquiry forms in React.',
+    createdAt: NOW,
+    updatedAt: NOW,
+  },
+  {
+    id: 'course-database-management',
+    slug: 'database-management',
+    title: 'Database Management',
+    category: 'Backend Data & SQL Engineering',
+    shortDescription:
+      'Design normalized relational schemas and write fast, reliable SQL & MySQL queries across tables, joins, constraints, and indexes.',
+    description:
+      'Master relational data modeling and practical SQL engineering online. Learn how tables, primary/foreign keys, normalization, complex JOIN queries, and MySQL design power reliable software systems.',
+    imageUrl: '',
+    published: true,
+    syllabusOverview:
+      'Covers Database Fundamentals, SQL, MySQL, Tables, Joins, Queries, and Database Design.',
+    modules: [
+      {
+        id: 'm1',
+        title: 'Module 1: Database Fundamentals & Schema Design',
+        topics: ['Database Fundamentals', 'Relational Model & Keys', 'Normalization (1NF, 2NF, 3NF)', 'Database Design & ER Diagrams'],
+      },
+      {
+        id: 'm2',
+        title: 'Module 2: Tables, Constraints & MySQL Setup',
+        topics: ['MySQL Architecture & Data Types', 'Creating Tables with Constraints', 'INSERT, UPDATE & DELETE Operations', 'Transactions & Integrity'],
+      },
+      {
+        id: 'm3',
+        title: 'Module 3: SQL Queries & Aggregations',
+        topics: ['SELECT, WHERE & ORDER BY', 'GROUP BY & HAVING Clauses', 'Aggregate Functions (COUNT, SUM, AVG)', 'Subqueries & Views'],
+      },
+      {
+        id: 'm4',
+        title: 'Module 4: Joins & Applied Relational Modeling',
+        topics: ['INNER JOIN & Multi-Table Queries', 'LEFT & RIGHT OUTER JOINs', 'Indexing Strategies', 'Real-World Schema Case Study'],
+      },
+    ],
+    learningOutcomes: [
+      'Translate application requirements into normalized ER models and relational tables.',
+      'Enforce referential integrity using primary keys, foreign keys, unique constraints, and checks.',
+      'Write accurate SQL queries using multi-table JOINs, grouped aggregations, and subqueries.',
+      'Administer and query MySQL databases confidently for software and analytics projects.',
+    ],
+    sampleLessonTitle: 'Sample Lesson: Relational Tables & Multi-Table JOIN Queries in MySQL',
+    sampleLessonContent:
+      'Proper relational database design separates entities into clean tables linked by foreign keys, then recombines them at query time with explicit JOINs.',
+    sampleLessonCode: `CREATE TABLE students (
+  student_id INT AUTO_INCREMENT PRIMARY KEY,
+  full_name VARCHAR(120) NOT NULL,
+  email VARCHAR(160) UNIQUE NOT NULL
+);
+
+CREATE TABLE enrollments (
+  enrollment_id INT AUTO_INCREMENT PRIMARY KEY,
+  student_id INT NOT NULL,
+  course_title VARCHAR(120) NOT NULL,
+  enrolled_date DATE NOT NULL,
+  FOREIGN KEY (student_id) REFERENCES students(student_id)
+);
+
+SELECT s.full_name, e.course_title, e.enrolled_date
+FROM students s
+INNER JOIN enrollments e ON s.student_id = e.student_id
+ORDER BY e.enrolled_date DESC;`,
+    practiceExercises: [
+      'Design a 3-table library database schema preventing duplicate ISBN records and orphaned loans.',
+      'Write SQL queries finding the top 5 most enrolled courses using GROUP BY and ORDER BY.',
+      'Compare INNER JOIN vs LEFT JOIN results to detect students without active project submissions.',
+    ],
+    sampleProjectTitle: 'Academic Course & Student Project Relational Database',
+    sampleProjectDescription:
+      'Architect a normalized MySQL schema covering students, mentors, courses, enrollments, and certificate records with reporting views and analytical queries.',
+    createdAt: NOW,
+    updatedAt: NOW,
+  },
+];
+
+export const SEED_MATERIALS: CourseMaterial[] = [
+  {
+    id: 'mat-python-notes',
+    title: 'Python Notes PDF',
+    description:
+      'Comprehensive reference notes covering Python syntax, variables, operators, loops, functions, and core data structures.',
+    courseCategory: 'Python + AI',
+    fileType: 'PDF',
+    fileName: 'APJ_Tech_Python_Notes.pdf',
+    fileUrl: '/api/materials/mat-python-notes/download',
+    storedFileName: '',
+    fileSizeLabel: 'Generated PDF',
+    previewContent: `# APJ Tech — Python Notes\n\n1. Variables & Data Types: int, float, str, bool, list, tuple, dict, set.\n2. Control Flow: if/elif/else conditionals, for/while loops, break & continue.\n3. Functions: def keyword, default arguments, *args/**kwargs, return values.\n4. Core Libraries: math, datetime, json, NumPy arrays, Pandas DataFrames.\n5. Practice Tip: Keep functions small, readable, and well-tested with edge inputs.`,
+    published: true,
+    createdAt: NOW,
+    updatedAt: NOW,
+  },
+  {
+    id: 'mat-ai-intro',
+    title: 'AI Introduction PDF',
+    description:
+      'Foundational guide to Artificial Intelligence, supervised vs. unsupervised Machine Learning, and practical workflow stages.',
+    courseCategory: 'Python + AI',
+    fileType: 'PDF',
+    fileName: 'APJ_Tech_AI_Introduction.pdf',
+    fileUrl: '/api/materials/mat-ai-intro/download',
+    storedFileName: '',
+    fileSizeLabel: 'Generated PDF',
+    previewContent: `# APJ Tech — AI Introduction\n\n1. What is Artificial Intelligence? Rule-based systems vs. data-driven learning.\n2. Machine Learning Categories: Supervised (Regression, Classification), Unsupervised (Clustering).\n3. End-to-End Pipeline: Data Collection -> Cleaning -> Feature Split -> Model Training -> Evaluation.\n4. Key Evaluation Metrics: Accuracy, Precision, Recall, Mean Absolute Error.`,
+    published: true,
+    createdAt: NOW,
+    updatedAt: NOW,
+  },
+  {
+    id: 'mat-ms-office-practice',
+    title: 'MS Office Practice Files',
+    description:
+      'Hands-on task prompts for formatting Word reports, structuring business tables, and designing PowerPoint decks.',
+    courseCategory: 'MS Office',
+    fileType: 'HTML Guide',
+    fileName: 'APJ_Tech_MS_Office_Practice_Files.html',
+    fileUrl: '/api/materials/mat-ms-office-practice/download',
+    storedFileName: '',
+    fileSizeLabel: 'Practice Lab',
+    previewContent: `# MS Office Practice Pack\n\nTask 1 (Microsoft Word): Format an official project synopsis using Heading 1/2 styles, page numbers, header/footer, and an automated Table of Contents.\nTask 2 (Microsoft PowerPoint): Build a 6-slide presentation on Master Slide layout with consistent alignment, clean contrast, and an embedded summary table.`,
+    published: true,
+    createdAt: NOW,
+    updatedAt: NOW,
+  },
+  {
+    id: 'mat-excel-exercises',
+    title: 'Excel Exercises',
+    description:
+      'Structured spreadsheet dataset CSV ready to open in Microsoft Excel for practicing SUMIFS, VLOOKUP, IF formulas, and charts.',
+    courseCategory: 'MS Office',
+    fileType: 'CSV',
+    fileName: 'APJ_Tech_Excel_Exercises.csv',
+    fileUrl: '/api/materials/mat-excel-exercises/download',
+    storedFileName: '',
+    fileSizeLabel: 'Dataset CSV',
+    previewContent: `Record_ID,Student_Name,Department,Course_Track,Attendance_Pct,Assessment_Score,Target_Score\n101,Aarav K,CSE,Python + AI,92,88,75\n102,Divya M,IT,Data Analytics,86,81,75\n103,Karthik R,ECE,Database Management,74,69,75\n104,Meera S,BCA,Frontend Development,95,91,75\n105,Vikram P,MCA,MS Office,89,84,75`,
+    published: true,
+    createdAt: NOW,
+    updatedAt: NOW,
+  },
+  {
+    id: 'mat-data-analytics-notes',
+    title: 'Data Analytics Notes',
+    description:
+      'Step-by-step reference covering Pandas DataFrames, missing value imputation, grouped summaries, and chart selection.',
+    courseCategory: 'Data Analytics',
+    fileType: 'PDF',
+    fileName: 'APJ_Tech_Data_Analytics_Notes.pdf',
+    fileUrl: '/api/materials/mat-data-analytics-notes/download',
+    storedFileName: '',
+    fileSizeLabel: 'Generated PDF',
+    previewContent: `# APJ Tech — Data Analytics Notes\n\n1. Loading Data: pd.read_csv(), df.info(), df.describe().\n2. Data Cleaning: drop_duplicates(), fillna(), str.strip(), pd.to_datetime().\n3. Grouping & Aggregation: df.groupby('category').agg({'metric': ['count', 'mean']}).\n4. Visual Selection: Line charts for time trends, Bar charts for categorical comparison, Scatter plots for correlation.`,
+    published: true,
+    createdAt: NOW,
+    updatedAt: NOW,
+  },
+  {
+    id: 'mat-html-css-notes',
+    title: 'HTML/CSS Notes',
+    description:
+      'Quick-reference handbook covering semantic HTML5 tags, Flexbox alignment, CSS Grid templates, and responsive breakpoints.',
+    courseCategory: 'Frontend Development',
+    fileType: 'PDF',
+    fileName: 'APJ_Tech_HTML_CSS_Notes.pdf',
+    fileUrl: '/api/materials/mat-html-css-notes/download',
+    storedFileName: '',
+    fileSizeLabel: 'Generated PDF',
+    previewContent: `# APJ Tech — HTML & CSS Notes\n\n1. Semantic Landmarks: <header>, <nav>, <main>, <section>, <article>, <footer>.\n2. Flexbox Essentials: display: flex, justify-content, align-items, gap.\n3. CSS Grid: display: grid, grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)).\n4. Mobile-First Responsive Design: Base styles for narrow screens + @media (min-width: 768px).`,
+    published: true,
+    createdAt: NOW,
+    updatedAt: NOW,
+  },
+  {
+    id: 'mat-js-examples',
+    title: 'JavaScript Examples',
+    description:
+      'Clean runnable JavaScript (ES6+) code snippets covering array methods, DOM events, form validation, and async fetch.',
+    courseCategory: 'Frontend Development',
+    fileType: 'JS',
+    fileName: 'APJ_Tech_JavaScript_Examples.js',
+    fileUrl: '/api/materials/mat-js-examples/download',
+    storedFileName: '',
+    fileSizeLabel: 'Code File',
+    previewContent: `// APJ Tech — JavaScript Examples\nconst courses = [\n  { title: 'Python + AI', category: 'AI' },\n  { title: 'Frontend Development', category: 'Web' },\n];\n\nconst titles = courses.map((c) => c.title);\nconsole.log('Available tracks:', titles);\n\nfunction isValidEmail(email) {\n  return /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email.trim());\n}`,
+    published: true,
+    createdAt: NOW,
+    updatedAt: NOW,
+  },
+  {
+    id: 'mat-sql-notes',
+    title: 'SQL Notes',
+    description:
+      'Concise study guide covering relational normalization, primary/foreign keys, SELECT filters, GROUP BY, and JOIN types.',
+    courseCategory: 'Database Management',
+    fileType: 'PDF',
+    fileName: 'APJ_Tech_SQL_Notes.pdf',
+    fileUrl: '/api/materials/mat-sql-notes/download',
+    storedFileName: '',
+    fileSizeLabel: 'Generated PDF',
+    previewContent: `# APJ Tech — SQL Notes\n\n1. DDL vs DML: CREATE/ALTER/DROP vs SELECT/INSERT/UPDATE/DELETE.\n2. Filtering & Grouping: WHERE filters rows before GROUP BY; HAVING filters aggregated groups.\n3. JOIN Summary:\n   - INNER JOIN: Matching rows in both tables.\n   - LEFT JOIN: All rows from left table + matching right rows.\n4. Normalization: Eliminate repeating groups (1NF), partial dependencies (2NF), transitive dependencies (3NF).`,
+    published: true,
+    createdAt: NOW,
+    updatedAt: NOW,
+  },
+  {
+    id: 'mat-mysql-practice',
+    title: 'MySQL Practice Questions',
+    description:
+      'Executable MySQL schema script paired with 10 graded practice queries covering constraints, joins, and aggregations.',
+    courseCategory: 'Database Management',
+    fileType: 'SQL',
+    fileName: 'APJ_Tech_MySQL_Practice_Questions.sql',
+    fileUrl: '/api/materials/mat-mysql-practice/download',
+    storedFileName: '',
+    fileSizeLabel: 'SQL Script',
+    previewContent: `-- APJ Tech — MySQL Practice Questions\nCREATE TABLE courses (course_id INT PRIMARY KEY, title VARCHAR(100));\nCREATE TABLE students (student_id INT PRIMARY KEY, name VARCHAR(100), city VARCHAR(80));\nCREATE TABLE enrollments (id INT PRIMARY KEY, student_id INT, course_id INT, enrolled_at DATE);\n\n-- Q1: List all students enrolled in 'Python + AI'.\n-- Q2: Count enrollments per course ordered descending.\n-- Q3: Find students who have not enrolled in any course using LEFT JOIN.`,
+    published: true,
+    createdAt: NOW,
+    updatedAt: NOW,
+  },
+];
+
+export const SEED_CERTIFICATES: CertificateRecord[] = [
+  {
+    id: 'cert-demo-001',
+    certificateId: 'APJ-DEMO-001',
+    studentName: 'Sample Student',
+    studentEmail: '',
+    courseName: 'Python + AI',
+    completionDate: 'Sample Date',
+    issuedAt: NOW,
+    isDemo: true,
+    verifiedCompletion: true,
+    status: 'Active',
+    authorizedSignatory: 'Authorized Signature',
+  },
+];
