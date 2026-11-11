@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { Download, Eye, FileText, Search, X } from 'lucide-react';
 import { useSite } from '../context/SiteContext';
+import { resolveApiUrl } from '../lib/api';
 import type { CourseMaterial } from '../types';
 
 export function MaterialsPage() {
@@ -133,7 +134,7 @@ export function MaterialsPage() {
                     </button>
 
                     <a
-                      href={mat.fileUrl}
+                      href={resolveApiUrl(mat.fileUrl)}
                       download={mat.fileName}
                       className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-white bg-[#258BFF] hover:bg-[#1A73E8] rounded-lg transition-colors whitespace-nowrap"
                     >
@@ -184,7 +185,7 @@ export function MaterialsPage() {
               <p className="text-sm text-slate-600">{previewItem.description}</p>
               {previewItem.storedFileName && previewItem.fileType === 'PDF' ? (
                 <iframe
-                  src={`/uploads/${previewItem.storedFileName}`}
+                  src={resolveApiUrl(`/uploads/${previewItem.storedFileName}`)}
                   title={previewItem.title}
                   className="w-full h-[420px] rounded-lg border border-slate-200"
                 />
@@ -205,7 +206,7 @@ export function MaterialsPage() {
                 Close
               </button>
               <a
-                href={previewItem.fileUrl}
+                href={resolveApiUrl(previewItem.fileUrl)}
                 download={previewItem.fileName}
                 className="inline-flex items-center gap-2 px-5 py-2 text-sm font-semibold text-white bg-[#258BFF] hover:bg-[#1A73E8] rounded-lg transition-colors"
               >

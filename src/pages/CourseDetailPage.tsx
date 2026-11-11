@@ -14,7 +14,7 @@ import {
 import { Link, useParams } from 'react-router-dom';
 import { CourseArtwork } from '../components/CourseArtwork';
 import { useSite } from '../context/SiteContext';
-import { api } from '../lib/api';
+import { api, resolveApiUrl } from '../lib/api';
 import type { Course, CourseMaterial } from '../types';
 
 export function CourseDetailPage() {
@@ -346,7 +346,7 @@ export function CourseDetailPage() {
                         <p className="text-xs text-slate-500 mt-0.5">{mat.description}</p>
                       </div>
                       <a
-                        href={mat.fileUrl}
+                        href={resolveApiUrl(mat.fileUrl)}
                         download={mat.fileName}
                         className="inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold text-white bg-[#071426] hover:bg-[#102B50] rounded-lg transition-colors whitespace-nowrap shrink-0"
                       >

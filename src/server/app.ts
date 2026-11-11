@@ -151,6 +151,35 @@ export function createApiApp(): Express {
   getDb();
 
   const app = express();
+  app.use((req, _res, next) => {
+    const rawUrl = req.url || '/';
+    const headerRoute =
+      typeof req.headers['x-apj-route'] === 'string' ? req.headers['x-apj-route'].trim() : '';
+    if (rawUrl.includes('_route=') || rawUrl.includes('__apjPath=') || headerRoute) {
+      try {
+        const parsed = new URL(rawUrl, 'http://localhost');
+        const targetRoute =
+          parsed.searchParams.get('_route') ||
+          parsed.searchParams.get('__apjPath') ||
+          headerRoute;
+        if (targetRoute) {
+          parsed.searchParams.delete('_route');
+          parsed.searchParams.delete('__apjPath');
+          const [routePath, routeQuery = ''] = targetRoute.split('?');
+          const mergedQuery = new URLSearchParams(routeQuery);
+          parsed.searchParams.forEach((value, key) => {
+            mergedQuery.set(key, value);
+          });
+          const qs = mergedQuery.toString();
+          const normalized = routePath.startsWith('/') ? routePath : `/${routePath}`;
+          req.url = `${normalized}${qs ? `?${qs}` : ''}`;
+        }
+      } catch {
+        // Keep original req.url on malformed query
+      }
+    }
+    next();
+  });
   app.use(express.json({ limit: '10mb' }));
   app.use('/uploads', express.static(UPLOADS_DIR));
 

@@ -4,6 +4,7 @@ import { ApjLogo } from '../components/ApjLogo';
 import { CertificateView } from '../components/CertificateView';
 import { CourseArtwork } from '../components/CourseArtwork';
 import { useSite } from '../context/SiteContext';
+import { resolveApiUrl } from '../lib/api';
 
 const HOME_SERVICES = [
   {
@@ -422,7 +423,7 @@ export function HomePage() {
                       </p>
                     </div>
                     <a
-                      href={mat.fileUrl}
+                      href={resolveApiUrl(mat.fileUrl)}
                       download={mat.fileName}
                       className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-[#258BFF] hover:text-white bg-[#258BFF]/10 hover:bg-[#258BFF] rounded-md transition-colors whitespace-nowrap shrink-0"
                     >

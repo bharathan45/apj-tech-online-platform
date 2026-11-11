@@ -1,7 +1,7 @@
 import { useEffect, useState, type ChangeEvent, type FormEvent } from 'react';
 import { Download, Eye, EyeOff, Plus, Trash2, Upload, X } from 'lucide-react';
 import { useSite } from '../../../context/SiteContext';
-import { api } from '../../../lib/api';
+import { api, resolveApiUrl } from '../../../lib/api';
 import type { CourseMaterial } from '../../../types';
 
 const COURSE_CATEGORIES = [
@@ -199,7 +199,7 @@ export function MaterialsSection({ onStatsChanged }: { onStatsChanged: () => voi
                     <td className="py-3.5 px-5 text-right">
                       <div className="inline-flex items-center gap-2">
                         <a
-                          href={m.fileUrl}
+                          href={resolveApiUrl(m.fileUrl)}
                           download={m.fileName}
                           className="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-[#071426] hover:bg-slate-100 border border-slate-200 rounded-md"
                         >

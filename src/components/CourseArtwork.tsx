@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { resolveApiUrl } from '../lib/api';
 import type { Course } from '../types';
 
 interface CourseArtworkProps {
@@ -13,7 +14,7 @@ export function CourseArtwork({ course, className = 'h-48 w-full' }: CourseArtwo
     return (
       <div className={`relative overflow-hidden bg-[#071426] ${className}`}>
         <img
-          src={course.imageUrl}
+          src={resolveApiUrl(course.imageUrl)}
           alt={course.title}
           referrerPolicy="no-referrer"
           onError={() => setImgFailed(true)}

@@ -34,6 +34,20 @@ export function setAdminToken(token: string | null): void {
   }
 }
 
+export function resolveApiUrl(path: string): string {
+  if (!path) return path;
+  if (/^https?:\/\//i.test(path) || path.startsWith('data:') || path.startsWith('blob:')) {
+    return path;
+  }
+  if (path.startsWith('/api/index?_route=')) {
+    return path;
+  }
+  if (path.startsWith('/api/') || path.startsWith('/uploads/')) {
+    return `/api/index?_route=${encodeURIComponent(path)}`;
+  }
+  return path;
+}
+
 async function requestJson<T>(url: string, options: RequestInit = {}): Promise<T> {
   const token = getAdminToken();
   const headers = new Headers(options.headers || {});
@@ -44,7 +58,8 @@ async function requestJson<T>(url: string, options: RequestInit = {}): Promise<T
     headers.set('Authorization', `Bearer ${token}`);
   }
 
-  const res = await fetch(url, {
+  const targetUrl = resolveApiUrl(url);
+  const res = await fetch(targetUrl, {
     ...options,
     headers,
     credentials: 'include',
@@ -59,7 +74,7 @@ async function requestJson<T>(url: string, options: RequestInit = {}): Promise<T
       const snippet = text.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 140);
       throw new Error(
         res.status === 404
-          ? `Backend API endpoint (${url}) returned 404 (${snippet || 'Not found'}). Make sure the full-stack Node server is running or /api routes are deployed.`
+          ? `Backend API endpoint (${url}) returned 404 (${snippet || 'Not found'}). Make sure the full-stack Node server is running or /api/index is deployed.`
           : `Server returned an unexpected non-JSON response (${res.status}): ${snippet}`
       );
     }
