@@ -51,9 +51,22 @@ async function requestJson<T>(url: string, options: RequestInit = {}): Promise<T
   });
 
   const text = await res.text();
-  const data = text ? JSON.parse(text) : {};
+  let data: Record<string, unknown> = {};
+  if (text) {
+    try {
+      data = JSON.parse(text) as Record<string, unknown>;
+    } catch {
+      const snippet = text.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 140);
+      throw new Error(
+        res.status === 404
+          ? `Backend API endpoint (${url}) returned 404 (${snippet || 'Not found'}). Make sure the full-stack Node server is running or /api routes are deployed.`
+          : `Server returned an unexpected non-JSON response (${res.status}): ${snippet}`
+      );
+    }
+  }
   if (!res.ok) {
-    throw new Error(data.error || `Request failed (${res.status})`);
+    const errMsg = typeof data.error === 'string' ? data.error : `Request failed (${res.status})`;
+    throw new Error(errMsg);
   }
   return data as T;
 }

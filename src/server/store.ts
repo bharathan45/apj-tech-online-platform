@@ -1,5 +1,6 @@
 import crypto from 'node:crypto';
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
 import type {
   CertificateRecord,
@@ -38,13 +39,36 @@ export interface DatabaseState {
   contactMessages: ContactMessage[];
 }
 
-const DATA_DIR = path.resolve(process.cwd(), 'data');
-const DB_PATH = path.join(DATA_DIR, 'apjtech-db.json');
-export const UPLOADS_DIR = path.resolve(process.cwd(), 'uploads');
+const REPO_DATA_DIR = path.resolve(process.cwd(), 'data');
+const REPO_DB_PATH = path.join(REPO_DATA_DIR, 'apjtech-db.json');
+const REPO_UPLOADS_DIR = path.resolve(process.cwd(), 'uploads');
+
+const TMP_DATA_DIR = path.join(os.tmpdir(), 'apjtech-data');
+const TMP_DB_PATH = path.join(TMP_DATA_DIR, 'apjtech-db.json');
+const TMP_UPLOADS_DIR = path.join(os.tmpdir(), 'apjtech-uploads');
+
+function isDirWritable(dirPath: string): boolean {
+  try {
+    if (!fs.existsSync(dirPath)) {
+      fs.mkdirSync(dirPath, { recursive: true });
+    }
+    const probe = path.join(dirPath, `.write-test-${process.pid}`);
+    fs.writeFileSync(probe, '1');
+    fs.unlinkSync(probe);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+const USE_TMP_FALLBACK = Boolean(process.env.VERCEL) || !isDirWritable(REPO_DATA_DIR);
+const ACTIVE_DATA_DIR = USE_TMP_FALLBACK ? TMP_DATA_DIR : REPO_DATA_DIR;
+const ACTIVE_DB_PATH = USE_TMP_FALLBACK ? TMP_DB_PATH : REPO_DB_PATH;
+export const UPLOADS_DIR = USE_TMP_FALLBACK ? TMP_UPLOADS_DIR : REPO_UPLOADS_DIR;
 
 function ensureDirs(): void {
-  if (!fs.existsSync(DATA_DIR)) {
-    fs.mkdirSync(DATA_DIR, { recursive: true });
+  if (!fs.existsSync(ACTIVE_DATA_DIR)) {
+    fs.mkdirSync(ACTIVE_DATA_DIR, { recursive: true });
   }
   if (!fs.existsSync(UPLOADS_DIR)) {
     fs.mkdirSync(UPLOADS_DIR, { recursive: true });
@@ -69,7 +93,12 @@ function createInitialState(): DatabaseState {
   const defaultEmail = (process.env.ADMIN_EMAIL || 'bharathan45k@gmail.com').trim().toLowerCase();
   const defaultPass = process.env.ADMIN_PASSWORD || 'APJTech@2026';
   const { salt, hash } = hashPassword(defaultPass);
-  const sessionSecret = process.env.SESSION_SECRET || crypto.randomBytes(32).toString('hex');
+  const sessionSecret =
+    process.env.SESSION_SECRET ||
+    crypto
+      .createHash('sha256')
+      .update(`apjtech-session:${defaultEmail}:${defaultPass}`)
+      .digest('hex');
 
   return {
     admin: {
@@ -91,32 +120,40 @@ function createInitialState(): DatabaseState {
 
 let cachedState: DatabaseState | null = null;
 
+function hydrateParsed(parsed: Partial<DatabaseState>): DatabaseState {
+  const fallback = createInitialState();
+  return {
+    admin: parsed.admin || fallback.admin,
+    sessionSecret: parsed.sessionSecret || fallback.sessionSecret,
+    content: parsed.content || fallback.content,
+    settings: parsed.settings || fallback.settings,
+    courses: Array.isArray(parsed.courses) ? parsed.courses : fallback.courses,
+    materials: Array.isArray(parsed.materials) ? parsed.materials : fallback.materials,
+    courseEnquiries: Array.isArray(parsed.courseEnquiries) ? parsed.courseEnquiries : [],
+    projectEnquiries: Array.isArray(parsed.projectEnquiries) ? parsed.projectEnquiries : [],
+    certificates: Array.isArray(parsed.certificates) ? parsed.certificates : fallback.certificates,
+    contactMessages: Array.isArray(parsed.contactMessages) ? parsed.contactMessages : [],
+  };
+}
+
 export function getDb(): DatabaseState {
   ensureDirs();
   if (cachedState) return cachedState;
 
-  if (fs.existsSync(DB_PATH)) {
-    try {
-      const raw = fs.readFileSync(DB_PATH, 'utf-8');
-      const parsed = JSON.parse(raw) as Partial<DatabaseState>;
-      const fallback = createInitialState();
-      cachedState = {
-        admin: parsed.admin || fallback.admin,
-        sessionSecret: parsed.sessionSecret || fallback.sessionSecret,
-        content: parsed.content || fallback.content,
-        settings: parsed.settings || fallback.settings,
-        courses: Array.isArray(parsed.courses) ? parsed.courses : fallback.courses,
-        materials: Array.isArray(parsed.materials) ? parsed.materials : fallback.materials,
-        courseEnquiries: Array.isArray(parsed.courseEnquiries) ? parsed.courseEnquiries : [],
-        projectEnquiries: Array.isArray(parsed.projectEnquiries) ? parsed.projectEnquiries : [],
-        certificates: Array.isArray(parsed.certificates) ? parsed.certificates : fallback.certificates,
-        contactMessages: Array.isArray(parsed.contactMessages) ? parsed.contactMessages : [],
-      };
-      return cachedState;
-    } catch {
-      cachedState = createInitialState();
-      saveDb(cachedState);
-      return cachedState;
+  const candidatePaths = USE_TMP_FALLBACK ? [ACTIVE_DB_PATH, REPO_DB_PATH] : [ACTIVE_DB_PATH];
+  for (const candidate of candidatePaths) {
+    if (fs.existsSync(candidate)) {
+      try {
+        const raw = fs.readFileSync(candidate, 'utf-8');
+        const parsed = JSON.parse(raw) as Partial<DatabaseState>;
+        cachedState = hydrateParsed(parsed);
+        if (USE_TMP_FALLBACK && candidate === REPO_DB_PATH) {
+          saveDb(cachedState);
+        }
+        return cachedState;
+      } catch {
+        // continue to next candidate or fallback
+      }
     }
   }
 
@@ -128,9 +165,9 @@ export function getDb(): DatabaseState {
 export function saveDb(state: DatabaseState): void {
   ensureDirs();
   cachedState = state;
-  const tmpPath = `${DB_PATH}.${process.pid}.tmp`;
+  const tmpPath = `${ACTIVE_DB_PATH}.${process.pid}.tmp`;
   fs.writeFileSync(tmpPath, JSON.stringify(state, null, 2), 'utf-8');
-  fs.renameSync(tmpPath, DB_PATH);
+  fs.renameSync(tmpPath, ACTIVE_DB_PATH);
 }
 
 export function signSessionToken(email: string, secret: string): string {
